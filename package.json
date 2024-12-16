@@ -1,0 +1,19 @@
+{
+  "name": "oraclecrud",
+  "version": "1.0.0",
+  "description": "App for ZIIBD course which connects to oracle db and make changes in the database",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --env-file=.env index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gabriel Gałęza",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "oracledb": "^6.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
