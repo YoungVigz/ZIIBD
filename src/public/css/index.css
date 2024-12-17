@@ -21,3 +21,7 @@ footer {
     position: absolute;
     bottom: 0;
 }
+
+.mr-5 {
+    margin-right: 30px;
+}

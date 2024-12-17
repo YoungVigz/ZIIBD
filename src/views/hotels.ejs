@@ -41,8 +41,78 @@
     
     <div class="main-container">
         <div class="text-center">
-            <h1 class="text-center mb-4">Lista hoteli:</h1>
+            <h1 class="text-center mb-4">Zarządzaj hotelami:</h1>
 
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">Lista hoteli:</div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nazwa</th>
+                                        <th>Lokalizacja</th>
+                                        <th>Ocena</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% hotels.forEach((hotel, index) => { %>
+                                        <tr>
+                                            <td><%= hotel[0] %></td>
+                                            <td><%= hotel[1] %></td>
+                                            <td><%= hotel[2] %></td>
+                                            <td><%= hotel[3] %>/5</td>
+                                            <td>
+                                                <a href="/hotels/<%= hotel[0] %>" class="btn btn-warning btn-sm">Edytuj</a>
+                                            </td>
+                                            <td>
+                                                <form action="/hotels/<%= hotel[0] %>?_method=DELETE" method="POST" class="d-inline">
+                                                    <button type="submit" class="btn btn-danger btn-sm">Usuń</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <% for (let i = 1; i <= totalPages; i++) { %>
+                                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                            <a class="page-link" href="/hotels?page=<%= i %>"><%= i %></a>
+                                        </li>
+                                    <% } %>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">Dodaj nowy hotel</div>
+                        <div class="card-body">
+                            <form action="/hotels" method="POST">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nazwa</label>
+                                    <input type="text" id="name" name="name" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="location" class="form-label">Lokalizacja</label>
+                                    <input type="text" id="location" name="location" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="rating">Ocena</label>
+                                    <input type="number" step="1" min="1" max="5" class="form-control" id="rating" name="rating" required>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100">Dodaj hotel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

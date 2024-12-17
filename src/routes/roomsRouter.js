@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const { getAllHotels } = require('../controllers/hotels')
-
-router.get('/', getAllHotels)
+router.get('/:id')
+router.post('/')
+router.put('/:id')
+router.delete('/:id')
 
 module.exports = router
