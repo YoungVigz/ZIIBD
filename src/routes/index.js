@@ -11,6 +11,6 @@ router.get('/', (req, res) => {
 
 router.use('/users', usersRoutes)
 router.use('/hotels', hotelsRoutes)
-router.use('rooms', roomsRoutes)
+router.use('/rooms', roomsRoutes)
 
 module.exports = router
