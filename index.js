@@ -1,6 +1,9 @@
 const express = require('express')
 const routes = require('./src/routes/index')
 const db = require('./src/utils/database')
+const bodyParser = require('body-parser')
+const path = require('path')
+const methodOverride = require('method-override')
 
 const app = express()
 
@@ -15,6 +18,11 @@ const connectToDB = async () => {
 }
 connectToDB()
 
+app.use(methodOverride('_method'))
+app.use(express.static(path.join(__dirname, 'src/public')))
+app.set('views', path.join(__dirname, 'src/views'))
+app.set('view engine', 'ejs')
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(routes)
 
 const PORT = process.env.PORT

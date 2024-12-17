@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System rezewacji hotelu</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">System rezewacji hotelu</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/users">Użytkownicy</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/hotels">Hotele</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/hotels">Pokoje</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reservations">Rezerwacje</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="main-container">
+        <div class="text-center ">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title"><%= hotel[1] %></h3>
+                    <p class="card-text"><strong>Lokalizacja:</strong> <%= hotel[2] %></p>
+                    <p class="card-text"><strong>Ocena:</strong> <%= hotel[3] %>/5</p>
+                </div>
+            </div>
+
+            <div class="d-flex">
+                <div class="mr-5">
+                    <h2 class="mb-3">Edytuj Informacje o Hotelu</h2>
+                    <form action="/hotels/<%= hotel[0] %>?_method=PUT" method="POST" class="mb-5">
+                        <div class="form-group">
+                            <label for="name">Nazwa Hotelu</label>
+                            <input type="text" class="form-control" id="name" name="name" value="<%= hotel[1] %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Lokalizacja</label>
+                            <input type="text" class="form-control" id="location" name="location" value="<%= hotel[2] %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rating">Ocena</label>
+                            <input type="number" step="1" min="1" max="5" class="form-control" id="rating" name="rating" value="<%= hotel[3] %>" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Zapisz zmiany</button>
+                    </form>
+                </div>  
+
+                <div class="mr-5">
+                    <h2 class="mb-3">Pokoje w Hotelu</h2>
+                    <% if (rooms.length > 0) { %>
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Typ Pokoju</th>
+                                    <th>Cena</th>
+                                    <th>Dostępność</th>
+                                    <th>Akcje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% rooms.forEach((room, index) => { %>
+                                    <tr>
+                                        <td><%= room[0] %></td>
+                                        <td><%= room[2] %></td>
+                                        <td><%= room[3] %> PLN</td>
+                                        <td>
+                                            <% if (room[4]) { %>
+                                                <span class="text-success">Dostępny</span>
+                                            <% } else { %>
+                                                <span class="text-danger">Zajęty</span>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <a href="/rooms/<%= room[0] %>" class="btn btn-warning btn-sm">Edytuj</a>
+                                            <form action="/rooms/<%= room[0] %>?_method=DELETE" method="POST" style="display:inline;">
+                                                <input type="hidden" name="hotel_id" value="<%= room[1] %>">
+                                                <button type="submit" class="btn btn-danger btn-sm">Usuń</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        <p class="text-muted">Brak dostępnych pokoi w tym hotelu.</p>
+                    <% } %>
+                </div>
+
+                <div>
+                    <h2 class="mb-3">Dodaj Nowy Pokój</h2>
+                    <form action="/rooms" method="POST">
+                        <input type="hidden" name="hotel_id" value="<%= hotel[0] %>">
+                        <div class="form-row">
+                            <div class="form-group ">
+                                <label for="room_type">Typ Pokoju</label>
+                                <input type="text" class="form-control" id="room_type" name="room_type" placeholder="Np. Single, Double" required>
+                            </div>
+                            <div class="form-group ">
+                                <label for="price">Cena (PLN)</label>
+                                <input type="number" class="form-control" id="price" name="price" placeholder="Cena za noc" required>
+                            </div>
+                            <div class="form-group ">
+                                <label for="availability">Dostępność</label>
+                                <select class="form-control" id="availability" name="availability" required>
+                                    <option value="1">Dostępny</option>
+                                    <option value="0">Zajęty</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">Dodaj Pokój</button>
+                    </form>
+                </div>
+            </div>
+
+        <a href="/hotels" class="btn btn-secondary mt-4">Powrót do Listy Hoteli</a>
+
+        </div>
+    </div>
+
+    <footer class="bg-light text-center py-3">
+        <p>&copy; 2024 Gabriel Gałęza</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
